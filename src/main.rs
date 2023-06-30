@@ -1,10 +1,11 @@
+#![windows_subsystem = "windows"]
 use iced::executor;
 use iced::theme;
 use iced::widget::tooltip::Position;
-use iced::widget::{checkbox, column, container, tooltip, Text, Tooltip};
+use iced::widget::{checkbox, column, container, tooltip, Text};
 use iced::{Application, Command, Element, Length, Settings, Theme};
 
-pub fn main() -> iced::Result {
+fn main() -> iced::Result {
     Example::run(Settings::default())
 }
 
