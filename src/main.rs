@@ -155,7 +155,11 @@ impl Application for Example {
         .style(theme::Container::Box);
 
         let video_editing = tooltip(
-            checkbox("Video Editing", self.video_editing, Message::VideoEditing),
+            checkbox(
+                "Video Editing (720 seconds per month)",
+                self.video_editing,
+                Message::VideoEditing,
+            ),
             "£1200",
             Position::FollowCursor,
         )
@@ -183,7 +187,11 @@ impl Application for Example {
         .style(theme::Container::Box);
 
         let brochures = tooltip(
-            checkbox("Brochures", self.brochures, Message::Brochures),
+            checkbox(
+                "Brochures for properties (PDF) (4 per month)",
+                self.brochures,
+                Message::Brochures,
+            ),
             "£800",
             Position::FollowCursor,
         )
@@ -191,7 +199,7 @@ impl Application for Example {
         .style(theme::Container::Box);
 
         let crm = tooltip(
-            checkbox("CRM", self.crm, Message::Crm),
+            checkbox("Lead Connector", self.crm, Message::Crm),
             "£200",
             Position::FollowCursor,
         )
@@ -199,9 +207,13 @@ impl Application for Example {
         .style(theme::Container::Box);
 
         let heading: Text = Text::new("AGM Price Calculator").size(50);
+        let subtitle: Text = Text::new("Monthly prices")
+            .size(20)
+            .style(theme::Text::Color([0.4, 0.4, 0.4].into()));
 
         let content = column![
             heading,
+            subtitle,
             landing_page,
             fb_campaigns,
             yt_campaigns,
