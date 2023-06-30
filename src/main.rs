@@ -1,5 +1,7 @@
 use iced::executor;
-use iced::widget::{checkbox, column, container, text, tooltip, Text};
+use iced::theme;
+use iced::widget::tooltip::Position;
+use iced::widget::{checkbox, column, container, tooltip, Text, Tooltip};
 use iced::{Application, Command, Element, Length, Settings, Theme};
 
 pub fn main() -> iced::Result {
@@ -123,22 +125,78 @@ impl Application for Example {
         }
         let price_string = format!("Price: £{}", calculate_price(&self));
         let price: Text = Text::new(price_string).size(30);
-        let landing_page = checkbox("Landing Page", self.landing_page, Message::LandingPage);
-        let fb_campaigns = checkbox(
-            "Facebook Campaigns",
-            self.fb_campaigns,
-            Message::FbCampaigns,
-        );
-        let yt_campaigns = checkbox("Youtube Campaigns", self.yt_campaigns, Message::YtCampaigns);
-        let video_editing = checkbox("Video Editing", self.video_editing, Message::VideoEditing);
-        let email_marketing = checkbox(
-            "Email Marketing",
-            self.email_marketing,
-            Message::EmailMarketing,
-        );
-        let sms_marketing = checkbox("SMS Marketing", self.sms_marketing, Message::SmsMarketing);
-        let brochures = checkbox("Brochures", self.brochures, Message::Brochures);
-        let crm = checkbox("CRM", self.crm, Message::Crm);
+
+        let landing_page = tooltip(
+            checkbox("Landing Page", self.landing_page, Message::LandingPage),
+            "£100",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let fb_campaigns = tooltip(
+            checkbox(
+                "Facebook Campaigns",
+                self.fb_campaigns,
+                Message::FbCampaigns,
+            ),
+            "£1200",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let yt_campaigns = tooltip(
+            checkbox("Youtube Campaigns", self.yt_campaigns, Message::YtCampaigns),
+            "£1200",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let video_editing = tooltip(
+            checkbox("Video Editing", self.video_editing, Message::VideoEditing),
+            "£1200",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let email_marketing = tooltip(
+            checkbox(
+                "Email Marketing",
+                self.email_marketing,
+                Message::EmailMarketing,
+            ),
+            "£400",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let sms_marketing = tooltip(
+            checkbox("SMS Marketing", self.sms_marketing, Message::SmsMarketing),
+            "£400",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let brochures = tooltip(
+            checkbox("Brochures", self.brochures, Message::Brochures),
+            "£800",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
+
+        let crm = tooltip(
+            checkbox("CRM", self.crm, Message::Crm),
+            "£200",
+            Position::FollowCursor,
+        )
+        .gap(20)
+        .style(theme::Container::Box);
 
         let heading: Text = Text::new("AGM Price Calculator").size(50);
 
