@@ -1,9 +1,10 @@
 #![windows_subsystem = "windows"]
+
+use iced::{Application, Command, Element, Length, Settings, Theme};
+use iced::alignment;
 use iced::executor;
 use iced::theme;
-use iced::widget::tooltip::Position;
-use iced::widget::{checkbox, column, container, tooltip, Text};
-use iced::{Application, Command, Element, Length, Settings, Theme};
+use iced::widget::{checkbox, column, container, Text};
 
 fn main() -> iced::Result {
     Example::run(Settings::default())
@@ -97,7 +98,6 @@ impl Application for Example {
             if cur.landing_page {
                 total += 100;
             }
-
             if cur.fb_campaigns && cur.yt_campaigns {
                 total += 2000;
             } else if cur.fb_campaigns {
@@ -105,7 +105,6 @@ impl Application for Example {
             } else if cur.yt_campaigns {
                 total += 1200;
             }
-
             if cur.video_editing {
                 total += 1200;
             }
@@ -124,115 +123,55 @@ impl Application for Example {
 
             total
         }
+
         let price_string = format!("Price: £{}", calculate_price(&self));
         let price: Text = Text::new(price_string).size(30);
-
-        let landing_page = tooltip(
-            checkbox("Landing Page", self.landing_page, Message::LandingPage),
-            "£100",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let fb_campaigns = tooltip(
-            checkbox(
-                "Facebook Campaigns",
-                self.fb_campaigns,
-                Message::FbCampaigns,
-            ),
-            "£1200",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let yt_campaigns = tooltip(
-            checkbox("Youtube Campaigns", self.yt_campaigns, Message::YtCampaigns),
-            "£1200",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let video_editing = tooltip(
-            checkbox(
-                "Video Editing (720 seconds per month)",
-                self.video_editing,
-                Message::VideoEditing,
-            ),
-            "£1200",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let email_marketing = tooltip(
-            checkbox(
-                "Email Marketing",
-                self.email_marketing,
-                Message::EmailMarketing,
-            ),
-            "£400",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let sms_marketing = tooltip(
-            checkbox("SMS Marketing", self.sms_marketing, Message::SmsMarketing),
-            "£400",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let brochures = tooltip(
-            checkbox(
-                "Brochures for properties (PDF) (4 per month)",
-                self.brochures,
-                Message::Brochures,
-            ),
-            "£800",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
-
-        let crm = tooltip(
-            checkbox("Lead Connector", self.crm, Message::Crm),
-            "£200",
-            Position::FollowCursor,
-        )
-        .gap(20)
-        .style(theme::Container::Box);
+        let landing_page = checkbox("Landing Page", self.landing_page, Message::LandingPage);
+        let fb_campaigns = checkbox(
+            "Facebook Campaigns",
+            self.fb_campaigns,
+            Message::FbCampaigns,
+        );
+        let yt_campaigns = checkbox("Youtube Campaigns", self.yt_campaigns, Message::YtCampaigns);
+        let video_editing = checkbox(
+            "Video Editing (720 seconds per month)",
+            self.video_editing,
+            Message::VideoEditing,
+        );
+        let email_marketing = checkbox(
+            "Email Marketing",
+            self.email_marketing,
+            Message::EmailMarketing,
+        );
+        let sms_marketing = checkbox("SMS Marketing", self.sms_marketing, Message::SmsMarketing);
+        let brochures = checkbox("Brochures", self.brochures, Message::Brochures);
+        let crm = checkbox("CRM", self.crm, Message::Crm);
 
         let heading: Text = Text::new("AGM Price Calculator").size(50);
         let subtitle: Text = Text::new("Monthly prices")
             .size(20)
             .style(theme::Text::Color([0.4, 0.4, 0.4].into()));
 
-        let content = column![
-            heading,
-            subtitle,
-            landing_page,
-            fb_campaigns,
-            yt_campaigns,
-            video_editing,
-            email_marketing,
-            sms_marketing,
-            brochures,
-            crm,
-            price,
-        ]
-        .spacing(20)
-        .padding(20);
+        let mut contents = column![];
 
-        container(content)
+        contents = contents.push(heading);
+        contents = contents.push(subtitle);
+        contents = contents.push(landing_page);
+        contents = contents.push(fb_campaigns);
+        contents = contents.push(yt_campaigns);
+        contents = contents.push(video_editing);
+        contents = contents.push(email_marketing);
+        contents = contents.push(sms_marketing);
+        contents = contents.push(brochures);
+        contents = contents.push(crm);
+        contents = contents.push(price);
+
+        container(contents.spacing(20).padding(20))
             .width(Length::Fill)
             .height(Length::Fill)
-            .center_x()
-            .center_y()
+            .padding(20)
+            .align_y(alignment::Vertical::Center)
+            .align_x(alignment::Horizontal::Center)
             .into()
     }
 }
