@@ -1,5 +1,5 @@
 use iced::executor;
-use iced::widget::{checkbox, column, container};
+use iced::widget::{checkbox, column, container, text, tooltip, Text};
 use iced::{Application, Command, Element, Length, Settings, Theme};
 
 pub fn main() -> iced::Result {
@@ -87,6 +87,42 @@ impl Application for Example {
     }
 
     fn view(&self) -> Element<'_, Self::Message, iced::Renderer<Self::Theme>> {
+        // price function
+        fn calculate_price(cur: &Example) -> u32 {
+            let mut total = 0;
+
+            if cur.landing_page {
+                total += 100;
+            }
+
+            if cur.fb_campaigns && cur.yt_campaigns {
+                total += 2000;
+            } else if cur.fb_campaigns {
+                total += 1200;
+            } else if cur.yt_campaigns {
+                total += 1200;
+            }
+
+            if cur.video_editing {
+                total += 1200;
+            }
+            if cur.email_marketing {
+                total += 400;
+            }
+            if cur.sms_marketing {
+                total += 400;
+            }
+            if cur.brochures {
+                total += 800;
+            }
+            if cur.crm {
+                total += 200;
+            }
+
+            total
+        }
+        let price_string = format!("Price: £{}", calculate_price(&self));
+        let price: Text = Text::new(price_string).size(30);
         let landing_page = checkbox("Landing Page", self.landing_page, Message::LandingPage);
         let fb_campaigns = checkbox(
             "Facebook Campaigns",
@@ -104,7 +140,10 @@ impl Application for Example {
         let brochures = checkbox("Brochures", self.brochures, Message::Brochures);
         let crm = checkbox("CRM", self.crm, Message::Crm);
 
+        let heading: Text = Text::new("AGM Price Calculator").size(50);
+
         let content = column![
+            heading,
             landing_page,
             fb_campaigns,
             yt_campaigns,
@@ -112,10 +151,12 @@ impl Application for Example {
             email_marketing,
             sms_marketing,
             brochures,
-            crm
+            crm,
+            price,
         ]
         .spacing(20)
         .padding(20);
+
         container(content)
             .width(Length::Fill)
             .height(Length::Fill)
